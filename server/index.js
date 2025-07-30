@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-
 // internal imports
 const Event = require('./models/eventModel');
+const eventRouter = require('./router/eventRouter');
+
 
 const app = express();
 
-// mongo atlast connection
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.epeuytn.mongodb.net/
-${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
+// mongo atlast connection
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.epeuytn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
 main()
 .then(()=>{
@@ -28,6 +28,7 @@ async function main(){
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use('/events', eventRouter)
 
 
 const port = process.env.PORT;
@@ -52,14 +53,6 @@ app.get('/',(req,res)=>{
 // })
 
 
-app.get('/events',async(req,res)=>{
-    try{
-        const eventData = await Event.find({});
-        res.send(eventData);
-    }catch(err){
-        console.log(err);
-    }
-})
 
 app.listen(port,(err)=>{
     if(!err) console.log(`App is listening on port ${port}`);
