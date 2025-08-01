@@ -15,4 +15,16 @@ router.get('/',async(req,res)=>{
     }
 });
 
+router.get('/:id',async (req,res)=>{
+    try{
+        const {id} = req.params;
+        // console.log(id);
+        const searchedEvent = await Event.findById(id);
+        // console.log(searchedEvent);
+        res.send(searchedEvent);
+    }catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router

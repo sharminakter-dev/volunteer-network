@@ -6,5 +6,14 @@
   gap:2rem;
   justify-content:center;
   box-sizing: border-box;
-  overflow-x: hidden;
+}
+
+.eventList a,
+.card-link{
+  display: block;
+  text-decoration: none;
+  width: 250px;
+  box-sizing: border-box;
+  
+  
 }

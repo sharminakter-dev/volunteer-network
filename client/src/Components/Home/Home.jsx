@@ -12,7 +12,8 @@ const Home = () => {
             backgroundRepeat:'no-repeat',
             backgroundPosition: 'center',
             width:'100%',
-            height: '50vh',
+            height: '60vh',
+            margin: '0'
         }}
         >
             <Header/>

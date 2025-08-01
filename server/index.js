@@ -36,7 +36,7 @@ const port = process.env.PORT;
 
 // root
 app.get('/',(req,res)=>{
-    res.json({'key':'hello world'});
+    res.json({'key':'hello world'});;
 });
 
 // // test mongo data

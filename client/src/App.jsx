@@ -3,6 +3,8 @@ import Header from './Components/Header/Header';
 import Home from "./Components/Home/Home";
 import Error from "./Components/Error/Error";
 import './App.css'
+import EventDetails from "./Components/EventDetails/EventDetails";
+import UserEvents from "./Components/UserEvents/UserEvents";
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
     <Routes>
       <Route index element={<Home/>}/>
       <Route path="/home" element={<Home/>}/>
+      <Route path="/eventDetails/:id" element={<EventDetails/>} />
+      <Route path="/user/:userId/events" element={<UserEvents/>} />
       <Route path="*" element={<Error/>} />
     </Routes>
       {/* <button onClick={handleClick} >click</button> */}

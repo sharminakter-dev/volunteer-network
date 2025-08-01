@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './EventListings.css'
 import ListCard from '../ListCard/ListCard';
+import { Link } from 'react-router-dom';
 
 
 const EventListings = () => {
@@ -24,8 +25,9 @@ const EventListings = () => {
 
     // Prepare full color list for all cards
     const assignedColors = [];
+    const totalCards = eventListing.length;
 
-    for (let i = 0; i < eventListing.length; i += cardsPerRow) {
+    for (let i = 0; i <totalCards; i += cardsPerRow) {
         const shuffled = shuffleArray(cardColors);
         assignedColors.push(...shuffled.slice(0, Math.min(cardsPerRow, totalCards - i)));
     }
@@ -34,8 +36,7 @@ const EventListings = () => {
         <div className='eventList'>
             {
                 eventListing.map((list, index) => {
-                    // const randomColor = cardColors[Math.floor(Math.random()*cardColors.length)]
-                    return <ListCard key={list._id} listing={{ ...list, color: assignedColors[index] }}/>  
+                    return  <Link key={list._id} className='card-link' to={`/eventDetails/${list._id}`} > <ListCard listing={{ ...list, color: assignedColors[index] }}/></Link>
                 })
             }
         </div>
