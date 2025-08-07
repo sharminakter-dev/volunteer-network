@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+    const searchRef = useRef('');
+    const navigate = useNavigate();
+
+    const handleSearch = ()=>{
+        // console.log(searchRef.current.value)
+        const searchValue = searchRef.current.value.trim()
+        // console.log(encodeURIComponent(searchValue))
+        navigate(`/search?q=${encodeURIComponent(searchValue)}`)
+    }
     return (
     <Container style={{textAlign:'center', marginTop:'2rem'}}>
             <h3>I Grow By Helping People In Need</h3>
@@ -12,10 +22,12 @@ const HeroSection = () => {
                 placeholder="Search...."
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                name='search'
+                ref={searchRef}
                 />
-                <Button variant="primary" id="button-addon2"  >
+               <Button variant="primary" id="button-addon2" onClick={handleSearch} >
                 Search
-                </Button>
+            </Button>
             </InputGroup>
 
         </Container>

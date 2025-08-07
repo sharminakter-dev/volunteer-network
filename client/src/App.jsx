@@ -5,26 +5,37 @@ import Error from "./Components/Error/Error";
 import './App.css'
 import EventDetails from "./Components/EventDetails/EventDetails";
 import UserEvents from "./Components/UserEvents/UserEvents";
+import Auth from "./Components/Auth/Auth";
+import SearchedEvent from "./Components/SearchedEvent/SearchedEvent";
+import { createContext, useState } from "react";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
+export const UserContext = createContext();
+export const EventContext = createContext();
 
 function App() {
-  const handleClick = ()=>{
-    fetch('http://localhost:3000/')
-    .then((res)=>res.json())
-    .then(data=>console.log(data));
-  }
+  
+  const [userInfo, setUserInfo] = useState({isLoggedIn:false});
+  const [eventData, setEventData] = useState({});
 
   return (
-  <BrowserRouter>
-    <Routes>
-      <Route index element={<Home/>}/>
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/eventDetails/:id" element={<EventDetails/>} />
-      <Route path="/user/:userId/events" element={<UserEvents/>} />
-      <Route path="*" element={<Error/>} />
-    </Routes>
-      {/* <button onClick={handleClick} >click</button> */}
-  </BrowserRouter>
+  <UserContext.Provider value={[userInfo, setUserInfo]}>
+    <EventContext.Provider value={[eventData, setEventData]}>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Home/>}/>
+          <Route path="/home" element={<Home/>}/>
+          <Route path="/eventDetails/:id" element={<EventDetails/>} />
+          <Route element={<PrivateRoute/>} >
+            <Route path="/my-events" element={<UserEvents/>} />
+          </Route>
+          <Route path="/auth" element={<Auth/>} />
+          <Route path='/search' element={<SearchedEvent/>} />
+          <Route path="*" element={<Error/>} />
+        </Routes>
+      </BrowserRouter>
+    </EventContext.Provider>
+  </UserContext.Provider>
   )
 }
 

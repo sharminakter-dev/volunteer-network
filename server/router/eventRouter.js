@@ -15,6 +15,23 @@ router.get('/',async(req,res)=>{
     }
 });
 
+
+router.get('/search',async(req,res)=>{
+    try{
+        const query = req.query.q;
+        const searchedEvents = await Event.find({
+            title:{
+                $regex: query,
+                $options: "i"
+            }
+        });
+        // console.log(searchedEvents);
+        res.send(searchedEvents)
+    }catch(err){
+        console.log(err);
+    }
+})
+
 router.get('/:id',async (req,res)=>{
     try{
         const {id} = req.params;
@@ -25,6 +42,7 @@ router.get('/:id',async (req,res)=>{
     }catch(err){
         console.log(err)
     }
-})
+});
+
 
 module.exports = router

@@ -7,6 +7,7 @@ require('dotenv').config();
 // internal imports
 const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
+const usersRouter = require('./router/usersRouter');
 
 
 const app = express();
@@ -28,7 +29,8 @@ async function main(){
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/events', eventRouter)
+app.use('/events', eventRouter);
+app.use('/users',usersRouter);
 
 
 const port = process.env.PORT;
