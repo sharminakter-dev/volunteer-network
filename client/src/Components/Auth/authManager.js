@@ -203,7 +203,6 @@ export const resetPassword = (email)=>{
 const storeAuthToken = ()=>{
     auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
     // Send token to your backend via HTTPS
-    console.log(idToken)
     sessionStorage.setItem('authToken',idToken)
     }).catch(function(error) {
         return error

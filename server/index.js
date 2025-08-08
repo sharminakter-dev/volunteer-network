@@ -2,16 +2,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+const admin = require("firebase-admin");
+const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-8acc580261.json");
+
 
 // internal imports
 const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
 const usersRouter = require('./router/usersRouter');
 
+// firebase initialization
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 const app = express();
-
+require('dotenv').config();
 
 // mongo atlast connection
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.epeuytn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
@@ -59,4 +65,4 @@ app.get('/',(req,res)=>{
 app.listen(port,(err)=>{
     if(!err) console.log(`App is listening on port ${port}`);
     else console.log(err);
-})
+});

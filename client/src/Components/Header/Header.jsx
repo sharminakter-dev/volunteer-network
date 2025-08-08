@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Dropdown from 'react-bootstrap/Dropdown';
 import logo from '../../assets/logos/Group 1329.png';
 import './Header.css'
 import { Link } from 'react-router-dom';
@@ -13,11 +14,14 @@ import { signoutUser } from '../Auth/authManager';
 
 const Header = () => {
   const [userInfo, setUserInfo] = useContext(UserContext);
-  // console.log(userInfo);
+  // console.log(userInfo.user);
 
   const handleSignOut = ()=>{
-    signoutUser()
-    .then(res=>setUserInfo(res))
+    const confirmSignOut = confirm('Are you sure you want to signout?');
+    if(confirmSignOut){
+      signoutUser()
+      .then(res=>setUserInfo(res))
+    }
   }
 
   return (
@@ -40,13 +44,34 @@ const Header = () => {
             <Col> <Nav.Link href="#action1">Donation</Nav.Link></Col>
             <Col><Nav.Link href="#action1">Events</Nav.Link></Col>
             <Col><Nav.Link href="#action1">Blog</Nav.Link></Col>
-            <Col><Button variant="info">Volunteer</Button></Col>
+            <Col><Link to='/volunteer' ><Button variant="info">Volunteer</Button> </Link></Col>
             {!userInfo.isLoggedIn &&
               <Col> <Link to="/auth" ><Button variant="primary">Register</Button></Link> </Col>
             }
             <Col><Button variant="secondary">Admin</Button></Col>
             {userInfo.isLoggedIn &&
-              <Col> <Button variant="danger" onClick={handleSignOut} >Logout</Button> </Col>}
+              // <Col> <Button variant="danger" onClick={handleSignOut} >Logout</Button> </Col>
+              <Col>
+                  <Dropdown>
+                    <Dropdown.Toggle 
+                      className='rounded-circle p-0' 
+                      id="dropdown-basic"
+                      as="div" 
+                      >
+                      <img src={userInfo.user?.photoURL} 
+                      alt="user" 
+                      className='rounded-circle border border-success border-2' 
+                      style={{ width: '40px', height: '40px', objectFit: 'cover' }}/> 
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item as={Link} to= {`/userProfile/${userInfo.user.uid}`} >your Profile</Dropdown.Item>
+                      <Dropdown.Item  as={Link} to='/my-events' >Your Events</Dropdown.Item>
+                      <Dropdown.Item as= 'button' onClick={handleSignOut} >sign Out</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+              </Col>
+            }
         </Row>
 
         

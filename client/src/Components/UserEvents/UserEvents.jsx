@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import { EventContext, UserContext } from '../../App';
 import ListCard from '../ListCard/ListCard';
+import './UserEvents.css'
 
 const UserEvents = () => {
     const [events, setEvents] = useState([]);
     const [userInfo] = useContext(UserContext);
     const [eventData] = useContext(EventContext);
     delete eventData._id;
-    console.log(userInfo, eventData);
+    // console.log(userInfo, eventData);
 
     useEffect(()=>{
         fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
@@ -25,7 +26,13 @@ const UserEvents = () => {
     },[userInfo.user.uid, eventData]);
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`)
+        fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+            }
+        })
         .then(res=>res.json())
         .then(data=>setEvents(data))
     },[userInfo.user.uid, eventData]);
@@ -50,18 +57,10 @@ const UserEvents = () => {
 
     console.log(events)
     return (
-        <div>
+        <div className='w-100 m-0'>
             <Header/>
-            <h1>Your events...</h1>
-            <div style={{
-                marginTop: '5rem',
-                padding:' 0 2rem',
-                display:'flex',
-                flexWrap:'wrap',
-                gap:'2rem',
-                justifyContent:'center',
-                boxsizing: 'border-box'
-            }} >
+            <h1 className='text-center'>Your events</h1>
+            <div className='d-flex flex-wrap gap-5 mt-5 px-3 border-box justify-content-center '>
                 {events.map((event,idx)=><ListCard key={event._id} listing={{...event,color: assignedColors[idx] }}/>)}
             </div>
         </div>

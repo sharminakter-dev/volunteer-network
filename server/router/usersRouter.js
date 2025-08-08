@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { getAuth } = require('firebase-admin/auth');
 
 // Internal imports
 const User = require('../models/userModel');
-const UserEvents = require('../models/userEventsModel')
+const UserEvents = require('../models/userEventsModel');
 
 router.route('/')
 .get((req,res)=>{
@@ -32,20 +33,37 @@ router.route('/')
 
 router.route('/events')
 .get(async(req,res)=>{
-    const {uid} = req.query;
-    const userEvents = await UserEvents.find()
-    .populate({path:'user',match:{firebaseUid:uid}});
-    console.log(userEvents);
-    res.send(userEvents)
+    try{
+        const {uid} = req.query;
+        const tokenWithBearer = req.headers.authorization;
+        if(tokenWithBearer && tokenWithBearer.startsWith('Bearer')){
+            idToken = tokenWithBearer.split(' ')[1];
+            // idToken comes from the client app
+            const decodedToken = await getAuth().verifyIdToken(idToken)
+            const tokenUid = decodedToken.uid;
+            if(tokenUid === uid){
+                const userEvents = await UserEvents.find()
+                .populate({path:'user',match:{firebaseUid:uid}});
+                res.send(userEvents);     
+            }   
+        }
+        
+    }catch(err){
+        console.log(err);
+    }
 })
 .post(async(req,res)=>{
-    const {uid} = req.query;
-    const event = req.body;
-    const user = await User.findOne({firebaseUid:uid});
-    const userEvent = await UserEvents(event);
-    userEvent.user = user._id;
-    await userEvent.save()
-    res.send(userEvent);
+    try{
+        const {uid} = req.query;
+        const event = req.body;
+        const user = await User.findOne({firebaseUid:uid});
+        const userEvent = await UserEvents(event);
+        userEvent.user = user._id;
+        await userEvent.save();
+        res.send(userEvent);
+    }catch(err){
+        console.log(err);
+    }
 })
 
 module.exports = router;

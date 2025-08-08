@@ -9,6 +9,8 @@ import Auth from "./Components/Auth/Auth";
 import SearchedEvent from "./Components/SearchedEvent/SearchedEvent";
 import { createContext, useState } from "react";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import UserProfile from "./Components/UserProfile/UserProfile";
+import Volunteer from "./Components/Volunteer/Volunteer";
 
 export const UserContext = createContext();
 export const EventContext = createContext();
@@ -29,8 +31,12 @@ function App() {
           <Route element={<PrivateRoute/>} >
             <Route path="/my-events" element={<UserEvents/>} />
           </Route>
+          <Route element={<PrivateRoute/>} >
+            <Route path="/userProfile/:id" element={<UserProfile/>} />
+          </Route>
           <Route path="/auth" element={<Auth/>} />
           <Route path='/search' element={<SearchedEvent/>} />
+          <Route path="/volunteer" element={<Volunteer/>} />
           <Route path="*" element={<Error/>} />
         </Routes>
       </BrowserRouter>

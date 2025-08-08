@@ -1,0 +1,4 @@
+.d-flex.flex-wrap > * {
+  width: 250px;
+  box-sizing: border-box;
+}
