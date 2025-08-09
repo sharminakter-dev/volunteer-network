@@ -7,8 +7,13 @@ const User = require('../models/userModel');
 const UserEvents = require('../models/userEventsModel');
 
 router.route('/')
-.get((req,res)=>{
-    res.json('user')
+.get(async(req,res)=>{
+    try{
+        const allUsers = await User.find({})
+        res.send(allUsers);
+    }catch(err){
+        console.log(err)
+    }
 })
 .post(async(req,res)=>{
     try{
@@ -30,6 +35,11 @@ router.route('/')
         console.log(err);
     }
 });
+
+router.get('/allEvents',async(req,res)=>{
+    const allEventsWithNames = await UserEvents.find({}).populate('user')
+    res.send(allEventsWithNames)
+})
 
 router.route('/events')
 .get(async(req,res)=>{
@@ -64,6 +74,12 @@ router.route('/events')
     }catch(err){
         console.log(err);
     }
+})
+
+router.delete('/events/:id', async(req,res)=>{
+    const {id} = req.params;
+    const deletedEvent = await UserEvents.findByIdAndDelete(id)
+    res.send(deletedEvent);
 })
 
 module.exports = router;

@@ -41,14 +41,11 @@ const Header = () => {
         </Row>
         <Row style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
             <Col> <Nav.Link href="/">Home</Nav.Link></Col>
-            <Col> <Nav.Link href="#action1">Donation</Nav.Link></Col>
-            <Col><Nav.Link href="#action1">Events</Nav.Link></Col>
-            <Col><Nav.Link href="#action1">Blog</Nav.Link></Col>
             <Col><Link to='/volunteer' ><Button variant="info">Volunteer</Button> </Link></Col>
             {!userInfo.isLoggedIn &&
               <Col> <Link to="/auth" ><Button variant="primary">Register</Button></Link> </Col>
             }
-            <Col><Button variant="secondary">Admin</Button></Col>
+            <Col><Link to="/admin" ><Button variant="secondary">Admin</Button></Link></Col>
             {userInfo.isLoggedIn &&
               // <Col> <Button variant="danger" onClick={handleSignOut} >Logout</Button> </Col>
               <Col>

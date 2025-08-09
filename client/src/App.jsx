@@ -11,6 +11,7 @@ import { createContext, useState } from "react";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import Volunteer from "./Components/Volunteer/Volunteer";
+import Admin from "./Components/Admin/Admin";
 
 export const UserContext = createContext();
 export const EventContext = createContext();
@@ -28,15 +29,16 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path="/home" element={<Home/>}/>
           <Route path="/eventDetails/:id" element={<EventDetails/>} />
-          <Route element={<PrivateRoute/>} >
+          {/* <Route element={<PrivateRoute/>} > */}
             <Route path="/my-events" element={<UserEvents/>} />
-          </Route>
+          {/* </Route> */}
           <Route element={<PrivateRoute/>} >
             <Route path="/userProfile/:id" element={<UserProfile/>} />
           </Route>
           <Route path="/auth" element={<Auth/>} />
           <Route path='/search' element={<SearchedEvent/>} />
           <Route path="/volunteer" element={<Volunteer/>} />
+          <Route path="/admin" element={<Admin/>} />
           <Route path="*" element={<Error/>} />
         </Routes>
       </BrowserRouter>
