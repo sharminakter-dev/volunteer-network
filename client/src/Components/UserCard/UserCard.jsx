@@ -5,8 +5,8 @@ import { UserContext } from '../../App';
 
 const UserCard = ({event}) => {
     const UserInfo = useContext(UserContext)
-    console.log(event);
-    const formattedDate = new Date(event.eventDate).toLocaleString('en-Us', {day:'2-digit', month: 'short', year:'numeric' });
+    // console.log(event);
+    const formattedDate = new Date(event.date).toLocaleString('en-Us', {day:'2-digit', month: 'short', year:'numeric' });
     const handleClick = ()=>{
         console.log('Clicked')
         // fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
@@ -21,7 +21,7 @@ const UserCard = ({event}) => {
             <Card style={{height:'200px'}} className='d-flex  flex-row' >
             
                 <div className='m-auto'>
-                    <img src={event.banner} alt="event" width={'200px'} height={'150px'} className='rounded' style={{marginLeft: '20px'}} />
+                    <img src={event.image.url} alt="event" width={'200px'} height={'150px'} className='rounded' style={{marginLeft: '20px'}} />
                 </div>
                 <Card.Body style={{width:'150px'}}>
                     

@@ -10,7 +10,7 @@ const UserEvents = () => {
     const [eventData] = useContext(EventContext);
     delete eventData._id;
     // console.log(userInfo, eventData);
-    console.log(eventData)
+    // console.log(eventData);
 
     // useEffect(()=>{
     //     fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
@@ -43,12 +43,6 @@ const UserEvents = () => {
             .then(res=>res.json())
             .then(data=>setUserEvents(data))
         },[]);
-
-
-    // Helper to shuffle colors
-    const shuffleArray = (array) => {
-        return [...array].sort(() => 0.5 - Math.random());
-    };
 
 
     // console.log(useEevents)

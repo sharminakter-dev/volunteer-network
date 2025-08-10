@@ -21,8 +21,8 @@ const EventDetails = () => {
     navigate('/my-events')
    }
 
-    // console.log(event);
-    const eventDate = new Date(eventData.eventDate).toDateString();
+    // console.log(eventData);
+    const eventDate = new Date(eventData.date).toDateString();
     // console.log(eventDate);
 
     return (
@@ -30,7 +30,7 @@ const EventDetails = () => {
             <Header/>
            {/* event card */}
            <Card className='border-0 mx-auto my-5 w-50' >
-            <Card.Img variant="top" src={eventData.banner} className='rounded'/>
+            <Card.Img variant="top" src={eventData.image?.url} className='rounded' height={'350px'} width={'120px'} />
             <Card.Body className='text-center'>
                 <Card.Title>{eventData.title}</Card.Title>
                 <Card.Text className='fst-italic'> {eventData.description} </Card.Text>

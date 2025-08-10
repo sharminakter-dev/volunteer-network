@@ -40,7 +40,6 @@ const Header = () => {
             </Col>
         </Row>
         <Row style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <Col> <Nav.Link href="/">Home</Nav.Link></Col>
             <Col><Link to='/volunteer' ><Button variant="info">Volunteer</Button> </Link></Col>
             {!userInfo.isLoggedIn &&
               <Col> <Link to="/auth" ><Button variant="primary">Register</Button></Link> </Col>

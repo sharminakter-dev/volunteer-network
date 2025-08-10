@@ -5,6 +5,9 @@ const cors = require('cors');
 const admin = require("firebase-admin");
 const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-8acc580261.json");
 
+const app = express();
+require('dotenv').config();
+
 
 // internal imports
 const Event = require('./models/eventModel');
@@ -16,8 +19,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-const app = express();
-require('dotenv').config();
 
 // mongo atlast connection
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.epeuytn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
