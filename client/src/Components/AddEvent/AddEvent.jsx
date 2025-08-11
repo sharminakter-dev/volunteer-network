@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const AddEvent = () => {
     const {
@@ -13,6 +14,8 @@ const AddEvent = () => {
         watch,
         formState: { errors },
     } = useForm();
+
+    const navigate = useNavigate()
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -26,7 +29,7 @@ const AddEvent = () => {
             body: formData
         })
         .then(res=>res.json())
-        .then(data=>console.log(data))
+        .then(data=>navigate('/'))
     }
     
     

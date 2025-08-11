@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const admin = require("firebase-admin");
-const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-8acc580261.json");
+const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-785fa7b73f.json");
 
 const app = express();
 require('dotenv').config();
@@ -13,6 +13,7 @@ require('dotenv').config();
 const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
 const usersRouter = require('./router/usersRouter');
+const userEventsRouter = require('./router/userEventsRouter')
 
 // firebase initialization
 admin.initializeApp({
@@ -38,6 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/events', eventRouter);
 app.use('/users',usersRouter);
+app.use('/userEvents', userEventsRouter)
 
 
 const port = process.env.PORT;

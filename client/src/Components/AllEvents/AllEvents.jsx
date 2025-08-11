@@ -13,8 +13,8 @@ const AllEvents = () => {
     // console.log(userEvents);
 
     const handleClick = (id)=>{
-         fetch(`http://localhost:3000/users/events/${id}`,{
-            method:'DELETE'
+        fetch(`http://localhost:3000/users/events?eventId=${id}`,{
+            method:'DELETE',
         })
         .then(res=>res.json())
         .then(data=>{
@@ -42,7 +42,7 @@ const AllEvents = () => {
                                     <tr className="bg-white" key={event._id} >
                                         <td> {event.user.name} </td>
                                         <td> {event.user.email} </td>
-                                        <td> {new Date(event.eventDate).toDateString()} </td>
+                                        <td> {new Date(event.date).toDateString()} </td>
                                         <td> {event.title} </td>
                                         <td >
                                             <FontAwesomeIcon 

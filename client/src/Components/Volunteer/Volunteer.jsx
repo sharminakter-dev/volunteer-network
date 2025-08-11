@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../App';
+import { EventContext, UserContext } from '../../App';
 
 const Volunteer = () => {
     const {
@@ -16,24 +16,17 @@ const Volunteer = () => {
 
   const navigate = useNavigate();
   const [userInfo] = useContext(UserContext);
+  const [, setEventData] = useContext(EventContext)
+
 
   const onSubmit = (data) => {
     if(userInfo.isLoggedIn){
-      fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
-        },
-        body:JSON.stringify(data)
-      })
-      .then(res=>res.json())
-      .then(data=>console.log(data))
+      setEventData(data);
       navigate('/my-events')
     }else{
       navigate('/auth')
     }
-    console.log(data)}
+  }
 
   // console.log(watch("title")); 
     return (
@@ -42,7 +35,7 @@ const Volunteer = () => {
             <h1 className='text-center' >Volunteer in an event</h1>
             <form 
               onSubmit={handleSubmit(onSubmit)} 
-              className='m-auto mt-5 d-flex flex-column justify-content-center w-75 align-items-center gap-3' >
+              className='m-auto mt-5  w-50 ' >
                 {/* register your input into the hook by invoking the "register" function */}
                 <Form.Group className="mb-3 d-flex align-items-center gap-2" >
                     <Form.Label>Event:</Form.Label>
@@ -57,7 +50,8 @@ const Volunteer = () => {
                 <Form.Group className="mb-3 d-flex align-items-center gap-2" >
                     <Form.Label>Description:</Form.Label>
                     <Form.Control 
-                      type="text" 
+                      as="textarea" 
+                      rows={5}
                       placeholder="volunteer in an event" 
                       {...register("description")}  />
                 </Form.Group>
@@ -70,7 +64,7 @@ const Volunteer = () => {
                 </Form.Group>
                 {errors.date && <span className='text-danger' >Date is required</span>}
                 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className='d-block m-auto' >
                     Submit
                 </Button>
             </form>

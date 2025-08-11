@@ -126,7 +126,9 @@ export const googleLogin = ()=>{
 export const fbLogin = ()=>{
     const fbProvider = new FacebookAuthProvider();
     return signInWithPopup(auth, fbProvider)
-    .then((result) => {
+    .then(async(result) => {
+
+        await storeAuthToken();
         // The signed-in user info.
         const userInfo = result.user;
         const signedInUser = {
@@ -139,7 +141,6 @@ export const fbLogin = ()=>{
                 photoURL:userInfo.photoURL,
             }
         }
-        storeAuthToken();
         return signedInUser;
     })
     .catch((error) => {
