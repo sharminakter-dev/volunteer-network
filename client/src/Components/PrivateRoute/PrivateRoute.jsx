@@ -7,10 +7,13 @@ const PrivateRoute = () => {
     const [userInfo, setUserInfo] = useContext(UserContext);
     const location = useLocation();
 
-    if(!userInfo.isLoggedIn ){
-        return <Navigate to='/auth' state={{from:location}} />
-    }else{
+    if(userInfo.loading){
+        return null
+    }
+    if(userInfo?.isLoggedIn ){
         return <Outlet/>
+    }else{
+        return <Navigate to='/auth' state={{from:location}} />
     }
 };
 

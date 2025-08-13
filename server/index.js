@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const admin = require("firebase-admin");
 const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-785fa7b73f.json");
+const path = require('path');
 
 const app = express();
 require('dotenv').config();
@@ -13,7 +14,6 @@ require('dotenv').config();
 const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
 const usersRouter = require('./router/usersRouter');
-const userEventsRouter = require('./router/userEventsRouter')
 
 // firebase initialization
 admin.initializeApp({
@@ -37,12 +37,12 @@ async function main(){
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname,'../client/build')))
 app.use('/events', eventRouter);
 app.use('/users',usersRouter);
-app.use('/userEvents', userEventsRouter)
 
 
-const port = process.env.PORT;
+const port = process.env.PORT|| 3000;
 
 
 // root
@@ -50,18 +50,9 @@ app.get('/',(req,res)=>{
     res.json({'key':'hello world'});;
 });
 
-// // test mongo data
-// app.get('/testEvent', async(req,res)=>{
-//     const sampleEvent = new Event({
-//         title:'Sample charity',
-//         description:'Its is a sample charity',
-//         eventDate: new Date(),
-//         banner:''
-//     }); 
-//     await sampleEvent.save();
-//     console.log('Sample event saved');
-//     res.send('Sample event saved to mongo atlas')
-// })
+app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'../client/build','index.html'))
+})
 
 
 

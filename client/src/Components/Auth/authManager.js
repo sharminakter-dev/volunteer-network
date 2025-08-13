@@ -14,7 +14,10 @@ import {
     signOut,
     sendEmailVerification,
     sendPasswordResetEmail,
-    onIdTokenChanged
+    onIdTokenChanged,
+    onAuthStateChanged,
+    browserSessionPersistence,
+    setPersistence
 } from "firebase/auth";
 
 // internal imports
@@ -29,23 +32,28 @@ const auth = getAuth();
 
 // create new user
 export const createNewUser=(name, email,password)=>{
-    return createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Signed up 
-        const userInfo = userCredential.user;
-        const signedInUser = {
-            success:true,
-            isLoggedIn:true,
-            user:{
-                uid: userInfo.uid,
-                name:name,
-                email: email,
-                photoURL:userProfile,
+     return setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+        return createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed up 
+            const userInfo = userCredential.user;
+            const signedInUser = {
+                success:true,
+                isLoggedIn:true,
+                user:{
+                    uid: userInfo.uid,
+                    name:name,
+                    email: email,
+                    photoURL:userProfile,
+                }
             }
-        }
-        updateUser(name, userProfile);
-        verifyEmail();
-        return signedInUser;
+            updateUser(name, userProfile);
+            sessionStorage.setItem('user',JSON.stringify(signedInUser));
+            storeAuthToken();
+            verifyEmail();
+            return signedInUser;
+        })
     })
     .catch((error) => {
         // Handle Errors here.
@@ -61,22 +69,26 @@ export const createNewUser=(name, email,password)=>{
 
 // user sign-in with password
 export const signInUser=(email,password)=>{
-    return signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Signed in 
-        const userInfo = userCredential.user;
-        const signedInUser = {
-            success:true,
-            isLoggedIn:true,
-            user:{
-                uid: userInfo.uid,
-                name:userInfo.displayName,
-                email: userInfo.email,
-                photoURL:userInfo.photoURL,
-            }
-        };
-        storeAuthToken();
-        return signedInUser;
+    return setPersistence(auth, browserSessionPersistence)
+    .then(() => { 
+        return signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const userInfo = userCredential.user;
+            const signedInUser = {
+                success:true,
+                isLoggedIn:true,
+                user:{
+                    uid: userInfo.uid,
+                    name:userInfo.displayName,
+                    email: userInfo.email,
+                    photoURL:userInfo.photoURL,
+                }
+            };
+            sessionStorage.setItem('user',JSON.stringify(signedInUser));
+            storeAuthToken();
+            return signedInUser;
+        })
     })
     .catch((error) => {
         // Handle Errors here.
@@ -92,57 +104,65 @@ export const signInUser=(email,password)=>{
 // google login
 export const googleLogin = ()=>{
     const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider)
-    .then((result) => {
-        // The signed-in user info.
-        const userInfo = result.user;
+    return setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+        return signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            // The signed-in user info.
+            const userInfo = result.user;
 
-        const signedInUser = {
-            success:true,
-            isLoggedIn:true,
-            user:{
-                uid: userInfo.uid,
-                name:userInfo.displayName,
-                email: userInfo.email,
-                photoURL:userInfo.photoURL,
+            const signedInUser = {
+                success:true,
+                isLoggedIn:true,
+                user:{
+                    uid: userInfo.uid,
+                    name:userInfo.displayName,
+                    email: userInfo.email,
+                    photoURL:userInfo.photoURL,
 
+                }
             }
-        }
-        storeAuthToken();
-        return signedInUser
-    }).catch((error) => {
-        // Handle Errors here.
-        const loginError ={
-            success:false,
-            errorMessage : error.message,
-            isLoggedIn: false
-        }
-                console.log(error)
-        return loginError;
-    });
+            sessionStorage.setItem('user',JSON.stringify(signedInUser));
+            storeAuthToken();
+            return signedInUser
+        }).catch((error) => {
+            // Handle Errors here.
+            const loginError ={
+                success:false,
+                errorMessage : error.message,
+                isLoggedIn: false
+            }
+            return loginError;
+        });
+    })
 }
 
 // Fb login
 export const fbLogin = ()=>{
     const fbProvider = new FacebookAuthProvider();
-    return signInWithPopup(auth, fbProvider)
-    .then(async(result) => {
+    return setPersistence(auth, browserSessionPersistence) 
+    .then(()=>{
+        return signInWithPopup(auth, fbProvider)
+        .then(async(result) => {
 
-        await storeAuthToken();
-        // The signed-in user info.
-        const userInfo = result.user;
-        const signedInUser = {
-            success:true,
-            isLoggedIn:true,
-            user:{
-                uid: userInfo.uid,
-                name:userInfo.displayName,
-                email: userInfo.email,
-                photoURL:userInfo.photoURL,
+            // The signed-in user info.
+            const userInfo = result.user;
+            const signedInUser = {
+                success:true,
+                isLoggedIn:true,
+                user:{
+                    uid: userInfo.uid,
+                    name:userInfo.displayName,
+                    email: userInfo.email,
+                    photoURL:userInfo.photoURL,
+                }
             }
-        }
-        return signedInUser;
+            sessionStorage.setItem('user', JSON.stringify(signedInUser))
+            await storeAuthToken();
+            return signedInUser;
+        })
     })
+  
     .catch((error) => {
         // Handle Errors here.
         const loginError ={
@@ -150,18 +170,20 @@ export const fbLogin = ()=>{
             errorMessage : error.message,
             isLoggedIn: false
         }
-        console.log(error)
         return loginError;
     });
 }
 
 // sign-out user
 export const signoutUser = ()=>{
-    return signOut(auth).then(() => {
+    return signOut(auth)
+    .then(() => {
     // Sign-out successful.
     const logOutUser = {success:true, isLoggedIn: false}
+    sessionStorage.setItem('user','')
     return logOutUser;
-    }).catch((error) => {
+    })
+    .catch((error) => {
     // An error happened.
     return error
     });
@@ -210,14 +232,3 @@ const storeAuthToken = ()=>{
     });
 }
 
-// //  Auto-update token when refreshed
-// const idTokenChanged = ()=>{
-//     onIdTokenChanged(auth, async (user) => {
-//     if (user) {
-//         const token = await user.getIdToken();
-//         sessionStorage.setItem('authToken', token);
-//     } else {
-//         sessionStorage.removeItem('authToken');
-//     }
-//     });
-// }

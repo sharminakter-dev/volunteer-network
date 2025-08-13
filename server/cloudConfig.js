@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: (req, file) => 'volunterr-network-DEV',
+    folder: (req, file) => 'volunteer-network-DEV',
     allowedFormats:["png", "jpg", "jpeg"]
   },
 });

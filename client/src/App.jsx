@@ -7,20 +7,30 @@ import EventDetails from "./Components/EventDetails/EventDetails";
 import UserEvents from "./Components/UserEvents/UserEvents";
 import Auth from "./Components/Auth/Auth";
 import SearchedEvent from "./Components/SearchedEvent/SearchedEvent";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import Volunteer from "./Components/Volunteer/Volunteer";
 import Admin from "./Components/Admin/Admin";
+
+
 
 export const UserContext = createContext();
 export const EventContext = createContext();
 
 
 function App() {
-  
-  const [userInfo, setUserInfo] = useState({isLoggedIn:false});
+  const [userInfo, setUserInfo] = useState({isLoggedIn:false, loading:true});
   const [eventData, setEventData] = useState(null);
+
+  useEffect(()=>{
+    const sessionUser = sessionStorage.getItem('user')
+    if(sessionUser){
+      setUserInfo(JSON.parse(sessionUser))
+    }else{
+      setUserInfo(prev=>({...prev, loading:false}))
+    }
+  },[])
 
   return (
   <UserContext.Provider value={[userInfo, setUserInfo]}>

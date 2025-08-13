@@ -7,13 +7,14 @@ const multer  = require('multer')
 // internal imports
 const Event = require('../models/eventModel');
 const {storage} = require('../cloudConfig.js')
-const upload = multer({ storage })
+const upload = multer({ storage });
+
+
 
 router.route('/')
 .get(async(req,res)=>{
     try{
         const eventData = await Event.find({});
-        // console.log(eventData);
         res.send(eventData);
     }catch(err){
         console.log(err);

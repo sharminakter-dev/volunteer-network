@@ -83,9 +83,12 @@ const Auth = () => {
     const handleResponse =(res, redirect)=>{
         // set userInfo
         setUserInfo(res);
-        // navigate 
-        if(redirect){
-            navigate(from);
+
+        if(res.success){
+            // navigate 
+            if(redirect){
+                navigate(from);
+            }
         }
         // send user info to backend
         fetch('http://localhost:3000/users',{

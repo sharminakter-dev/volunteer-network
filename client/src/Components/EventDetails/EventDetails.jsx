@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { EventContext } from '../../App';
 
 const EventDetails = () => {
 

@@ -8,7 +8,7 @@ const UserEvents = () => {
     const [userEvents, setUserEvents] = useState([]);
     const [userInfo] = useContext(UserContext);
     const [eventData, setEventData] = useContext(EventContext);
-    
+
     // console.log(userInfo);
     // console.log(eventData);
 
@@ -27,7 +27,7 @@ const UserEvents = () => {
         .then(data=>{
             setUserEvents(data)
         })
-    },[userInfo.user.uid, eventData]);
+    },[userInfo.user.uid]);
 
     useEffect(()=>{
         if(eventData){
@@ -53,7 +53,7 @@ const UserEvents = () => {
     return (
         <div className='w-100 m-0'>
             <Header/>
-            {userEvents?
+            {userEvents.length?
                 <>
                     <h1 className='text-center'>Your events</h1>
                     <div className='d-flex flex-wrap gap-5 mt-5 justify-content-center'>

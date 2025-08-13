@@ -79,18 +79,16 @@ router.route('/events')
     const deletedEvent = await UserEvents.findByIdAndDelete(eventId);
     res.send(deletedEvent)
 })
-router.delete(('/events/:id'), async(req,res)=>{
+router.delete('/events/:id', async(req,res)=>{
     const {uid} = req.query;
     const eventId = req.params.id;
     const tokenWithBearer = req.headers.authorization
-    console.log(tokenWithBearer)
+    // console.log(tokenWithBearer)
     if(tokenWithBearer && tokenWithBearer.startsWith('Bearer')){
         idToken = tokenWithBearer.split(' ')[1];
         const decodedToken = await getAuth().verifyIdToken(idToken)
         const tokenUid = decodedToken.uid;
-        console.log(false)
         if(tokenUid == uid){
-            console.log(true)
             const deletedEvent = await UserEvents.findByIdAndDelete(eventId)
             res.send(deletedEvent);
         }
