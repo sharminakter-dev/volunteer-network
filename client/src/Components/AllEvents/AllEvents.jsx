@@ -6,14 +6,14 @@ import { Table } from 'react-bootstrap';
 const AllEvents = () => {
     const [userEvents,setUserEvents] = useState([]);
     useEffect(()=>{
-        fetch(`http://localhost:3000/users/allEvents`)
+        fetch(`/users/allEvents`)
         .then(res=>res.json())
         .then(data=>setUserEvents(data))
     },[]);
     // console.log(userEvents);
 
     const handleClick = (id)=>{
-        fetch(`http://localhost:3000/users/events?eventId=${id}`,{
+        fetch(`/users/events?eventId=${id}`,{
             method:'DELETE',
         })
         .then(res=>res.json())

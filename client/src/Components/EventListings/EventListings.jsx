@@ -8,12 +8,13 @@ const EventListings = () => {
 
     const [eventListing, setEventListing] = useState([]);
 
+
     useEffect(()=>{
-        fetch('http://localhost:3000/events')
+        fetch('/events')
         .then(res=>res.json())
         .then(data=>setEventListing(data))
     },[]);
-    // console.log(eventListing);
+    console.log(eventListing);
 
     const cardColors = ['#3F90FC', '#FFBD3E', '#421FCF', '#FF7044'];
     const cardsPerRow = 4;

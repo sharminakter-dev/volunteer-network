@@ -16,7 +16,7 @@ const UserEvents = () => {
 
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
+        fetch(`/users/events?uid=${userInfo.user.uid}`,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
@@ -31,7 +31,7 @@ const UserEvents = () => {
 
     useEffect(()=>{
         if(eventData){
-            fetch(`http://localhost:3000/users/events?uid=${userInfo.user.uid}`,{
+            fetch(`/users/events?uid=${userInfo.user.uid}`,{
                 method:'POST',
                 headers:
                 {

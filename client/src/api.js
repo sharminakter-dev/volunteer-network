@@ -1,7 +1,7 @@
 
 // Fetch all events
 export const fetchEvents = async () => {
-  const res = await fetch('/api/events');
+  const res = await fetch('/events');
   return res.json();
 };
 

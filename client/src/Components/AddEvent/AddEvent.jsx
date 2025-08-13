@@ -24,7 +24,7 @@ const AddEvent = () => {
         formData.append("description", data.description);
         formData.append("img", data.img[0]);
 
-        fetch('http://localhost:3000/events',{
+        fetch('/events',{
             method:'POST',
             body: formData
         })

@@ -16,7 +16,7 @@ const SearchedEvent = () => {
     const cardsPerRow = 4;
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/events/search?q=${query}`)
+        fetch(`/events/search?q=${query}`)
         .then(res=>res.json())
         .then(data=>setEventListing(data))
     },[]);

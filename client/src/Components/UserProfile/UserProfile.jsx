@@ -27,18 +27,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-
-// user
-// : 
-// email
-// : 
-// "sharminakter0411@gmail.com"
-// name
-// : 
-// "Sharmin Akter"
-// photoURL
-// : 
-// "https://graph.facebook.com/3769030043400486/picture"
-// uid
-// : 
-// "Hmt4lU28nUVPbmprgxPJ0ZwvW892"

@@ -9,7 +9,7 @@ const UserCard = ({event, onDelete}) => {
     const formattedDate = new Date(event.date).toLocaleString('en-Us', {day:'2-digit', month: 'short', year:'numeric' });
 
     const handleClick = ()=>{
-        fetch(`http://localhost:3000/users/events/${event._id}?uid=${userInfo.user.uid}`,{
+        fetch(`/users/events/${event._id}?uid=${userInfo.user.uid}`,{
             method:'DELETE',
             headers:{
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`

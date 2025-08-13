@@ -20,6 +20,7 @@ export const EventContext = createContext();
 
 
 function App() {
+
   const [userInfo, setUserInfo] = useState({isLoggedIn:false, loading:true});
   const [eventData, setEventData] = useState(null);
 

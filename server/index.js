@@ -9,7 +9,6 @@ const path = require('path');
 const app = express();
 require('dotenv').config();
 
-
 // internal imports
 const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
@@ -37,23 +36,22 @@ async function main(){
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,'../client/build')))
+app.use(express.static(path.join(__dirname,'../client/dist')))
 app.use('/events', eventRouter);
 app.use('/users',usersRouter);
 
 
-const port = process.env.PORT|| 3000;
+const port = process.env.PORT;
 
 
 // root
-app.get('/',(req,res)=>{
+app.get('/api',(req,res)=>{
     res.json({'key':'hello world'});;
 });
 
-app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'../client/build','index.html'))
+app.get(/(.*)/,(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'../client/dist','index.html'))
 })
-
 
 
 app.listen(port,(err)=>{

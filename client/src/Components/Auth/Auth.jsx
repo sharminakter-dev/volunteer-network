@@ -59,8 +59,7 @@ const Auth = () => {
         }
 
         //  user sign-in with password
-        if(!formData.isNewUser){
-            
+        if(!formData.isNewUser){   
             signInUser(formData.email, formData.password)
             .then(res=>handleResponse(res,true))
         }
@@ -91,7 +90,7 @@ const Auth = () => {
             }
         }
         // send user info to backend
-        fetch('http://localhost:3000/users',{
+        fetch('/users',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
