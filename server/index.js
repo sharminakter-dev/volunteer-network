@@ -46,7 +46,7 @@ const port = process.env.PORT;
 
 // root
 app.get('/api',(req,res)=>{
-    res.json({'key':'hello world'});;
+    res.json({'message':'Backend is running'});;
 });
 
 app.get(/(.*)/,(req,res)=>{
