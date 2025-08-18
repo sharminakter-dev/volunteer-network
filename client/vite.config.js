@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/volunteer-network/',
   plugins: [react()],
+  base: '/',  
   server: {
     proxy: {
       '/api': 'http://localhost:3000', // redirect /api/* to backend
