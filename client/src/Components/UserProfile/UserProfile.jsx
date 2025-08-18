@@ -7,7 +7,6 @@ import Card from 'react-bootstrap/Card';
 
 const UserProfile = () => {
     const [userInfo] = useContext(UserContext);
-    const {id} = useParams();
 
     return (
         <div className='d-flex flex-column justify-content-center '>

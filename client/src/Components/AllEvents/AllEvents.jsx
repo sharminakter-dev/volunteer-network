@@ -5,15 +5,17 @@ import { Table } from 'react-bootstrap';
 
 const AllEvents = () => {
     const [userEvents,setUserEvents] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL;
+    // console.log(API_URL);
     useEffect(()=>{
-        fetch(`/users/allEvents`)
+        fetch(`${API_URL}/users/allEvents`)
         .then(res=>res.json())
         .then(data=>setUserEvents(data))
     },[]);
     // console.log(userEvents);
 
     const handleClick = (id)=>{
-        fetch(`/users/events?eventId=${id}`,{
+        fetch(`${API_URL}/users/events?eventId=${id}`,{
             method:'DELETE',
         })
         .then(res=>res.json())

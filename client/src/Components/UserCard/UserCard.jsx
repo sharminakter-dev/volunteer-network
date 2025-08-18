@@ -7,9 +7,10 @@ const UserCard = ({event, onDelete}) => {
     const [userInfo] = useContext(UserContext);
     // console.log(event)
     const formattedDate = new Date(event.date).toLocaleString('en-Us', {day:'2-digit', month: 'short', year:'numeric' });
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const handleClick = ()=>{
-        fetch(`/users/events/${event._id}?uid=${userInfo.user.uid}`,{
+        fetch(`${API_URL}/users/events/${event._id}?uid=${userInfo.user.uid}`,{
             method:'DELETE',
             headers:{
                 Authorization: `Bearer ${sessionStorage.getItem('authToken')}`

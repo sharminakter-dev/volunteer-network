@@ -28,7 +28,8 @@ const Auth = () => {
 
     const location = useLocation();
     const  navigate = useNavigate();
-    const from = location.state?.from?.pathname || '/'
+    const from = location.state?.from?.pathname || '/';
+    const API_URL = import.meta.env.VITE_API_URL;
 
 
     const handleSubmit = (e)=>{
@@ -90,7 +91,7 @@ const Auth = () => {
             }
         }
         // send user info to backend
-        fetch('/users',{
+        fetch(`${API_URL}/users`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',

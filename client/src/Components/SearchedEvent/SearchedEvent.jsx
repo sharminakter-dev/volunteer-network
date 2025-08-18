@@ -14,9 +14,10 @@ const SearchedEvent = () => {
     
     const cardColors = ['#3F90FC', '#FFBD3E', '#421FCF', '#FF7044'];
     const cardsPerRow = 4;
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(()=>{
-        fetch(`/events/search?q=${query}`)
+        fetch(`${API_URL}/events/search?q=${query}`)
         .then(res=>res.json())
         .then(data=>setEventListing(data))
     },[]);

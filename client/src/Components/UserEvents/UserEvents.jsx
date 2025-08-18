@@ -13,10 +13,11 @@ const UserEvents = () => {
     // console.log(eventData);
 
     if(eventData?._id) delete eventData._id;
+    const API_URL = import.meta.env.VITE_API_URL;
 
 
     useEffect(()=>{
-        fetch(`/users/events?uid=${userInfo.user.uid}`,{
+        fetch(`${API_URL}/users/events?uid=${userInfo.user.uid}`,{
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
@@ -31,7 +32,7 @@ const UserEvents = () => {
 
     useEffect(()=>{
         if(eventData){
-            fetch(`/users/events?uid=${userInfo.user.uid}`,{
+            fetch(`${API_URL}/users/events?uid=${userInfo.user.uid}`,{
                 method:'POST',
                 headers:
                 {

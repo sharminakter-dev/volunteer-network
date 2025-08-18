@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 const EventListings = () => {
 
     const [eventListing, setEventListing] = useState([]);
-
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(()=>{
-        fetch('/events')
+        fetch(`${API_URL}/events`)
         .then(res=>res.json())
         .then(data=>setEventListing(data))
     },[]);
-    console.log(eventListing);
+    // console.log(eventListing);
 
     const cardColors = ['#3F90FC', '#FFBD3E', '#421FCF', '#FF7044'];
     const cardsPerRow = 4;

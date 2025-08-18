@@ -10,9 +10,10 @@ const EventDetails = () => {
     const {id} = useParams();
     const [eventData, setEventData] = useContext(EventContext);
     const navigate = useNavigate();
+    const API_URL = import.meta.env.VITE_API_URL;
 
    useEffect(()=>{
-     fetch(`/events/${id}`)
+     fetch(`${API_URL}/events/${id}`)
     .then(res=>res.json())
     .then(data=>setEventData(data))
    },[id]);
