@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const admin = require("firebase-admin");
-const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-785fa7b73f.json");
+// const serviceAccount = require("./volunteer-network-44dd9-firebase-adminsdk-fbsvc-785fa7b73f.json");
 const path = require('path');
 
 const app = express();
@@ -14,6 +14,7 @@ const Event = require('./models/eventModel');
 const eventRouter = require('./router/eventRouter');
 const usersRouter = require('./router/usersRouter');
 
+const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIALS);
 // firebase initialization
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -41,7 +42,7 @@ app.use('/events', eventRouter);
 app.use('/users',usersRouter);
 
 
-const port = process.env.PORT;
+const port = process.env.PORT||3000;
 
 
 // root
